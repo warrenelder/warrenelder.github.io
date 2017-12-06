@@ -77,4 +77,20 @@ theme: tranquilpeak
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+
+algolia:
+  appId: "JG6E2Q9B2Y"
+  apiKey: "5acb06efd79378653af8b8b435f0fbea"
+  adminApiKey:  # DO NOT COMMIT THIS KEY
+  chunkSize: 5000
+  indexName: "high-hopes-hexo-blog"
+  fields:
+    - excerpt
+    - excerpt:strip
+    - gallery
+    - permalink
+    - photos
+    - slug
+    - tags
+    - title
