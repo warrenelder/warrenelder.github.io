@@ -3,8 +3,6 @@ title: Why I'm here?
 date: 2017-11-28 16:15:10
 categories:
 - General
-thumbnailImage: sky-high-hopes.jpg
-thumbnailImagePosition: bottom
 metaAlignment: center
 coverMeta: out
 coverSize: partial
