@@ -79,6 +79,7 @@ theme: tranquilpeak
 deploy:
   type: git
   repo: https://github.com/warrenelder/warrenelder.github.io
+  branch: master
 
 algolia:
   appId: "JG6E2Q9B2Y"
