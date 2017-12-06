@@ -78,9 +78,7 @@ theme: tranquilpeak
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: http://warrenelder.github.io.
-  branch: master
-  message: Deploy version 1.1. Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}
+  repo: https://github.com/warrenelder/warrenelder.github.io
 
 algolia:
   appId: "JG6E2Q9B2Y"
