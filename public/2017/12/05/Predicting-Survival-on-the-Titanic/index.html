@@ -1,0 +1,825 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="High Hopes">
+    <title>Predicting Survival on the Titanic - High Hopes</title>
+    <meta name="author" content="Warren Elder">
+    
+    
+    
+    <meta name="description" content="I recently created, and shared my first Kernal on Kaggle and thought I should add it here too. I wrote it in RMarkdown and found a very handy tutorial at https:">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Predicting Survival on the Titanic">
+<meta property="og:url" content="/2017/12/05/Predicting-Survival-on-the-Titanic/index.html">
+<meta property="og:site_name" content="High Hopes">
+<meta property="og:description" content="I recently created, and shared my first Kernal on Kaggle and thought I should add it here too. I wrote it in RMarkdown and found a very handy tutorial at https://bookdown.org/yihui/blogdown/hexo.html">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-11-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-13-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-15-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-16-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-24-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-24-2.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-38-1.png">
+<meta property="og:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-38-2.png">
+<meta property="og:updated_time" content="2017-12-05T08:53:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Predicting Survival on the Titanic">
+<meta name="twitter:description" content="I recently created, and shared my first Kernal on Kaggle and thought I should add it here too. I wrote it in RMarkdown and found a very handy tutorial at https://bookdown.org/yihui/blogdown/hexo.html">
+<meta name="twitter:image" content="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-11-1.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-m22ro5w9szypnhlstiyy3ixxu8emtm2pwopbqkunhzrpeknywgzlepy5xfkn.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">High Hopes</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/warrenelder"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://www.linkedin.com/in/warrenelder/"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:warrenelder84@gmail.com"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Predicting Survival on the Titanic
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-12-05T13:00:00+13:00">
+	
+		    Dec 05, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/General/">General</a>, <a class="category-link" href="/categories/General/Data-science/">Data science</a>, <a class="category-link" href="/categories/General/Data-science/Kaggle/">Kaggle</a>
+
+
+    
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>I recently created, and shared my first Kernal on Kaggle and thought I should add it here too. I wrote it in RMarkdown and found a very handy tutorial at <a href="https://bookdown.org/yihui/blogdown/hexo.html" target="_blank" rel="noopener">https://bookdown.org/yihui/blogdown/hexo.html</a> on how to compile it directly into my Hexo blog. So enjoy…<br><a id="more"></a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">knitr::opts_chunk$set(echo=<span class="literal">TRUE</span>, error=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>This is my first attempt at analysing a Kaggle dataset. My principle aim here is to pick up as many methods and techniques while investigating this type of classification problem. I am also relatively new to using <em>R</em> language. To that end, any input/suggestions that would improve the analysis would be most welcome.</p>
+<p>The Titanic is a well known ship that floundered on it’s maiden voyage after striking an ice-berg in the North Atlantic in 1912. There was a large loss of life which was worsened by insufficient lifeboats. The aim of this challenge is to predict the probability of whether a given person survived this tragedy or not.</p>
+<p>The <a href="https://www.kaggle.com/c/titanic/data" target="_blank" rel="noopener">data</a> comes in the form of one training and test file each: <code>../input/train.csv</code> &amp; <code>../input/test.csv</code>. Each row corresponds to a specific passenger on the ship and the columns describe their features.</p>
+<p>Additional data has been created on passengers nationality, and is detailed in section 4.5.</p>
+<h1 id="Preparations-tabset-tabset-fade-tabset-pills"><a href="#Preparations-tabset-tabset-fade-tabset-pills" class="headerlink" title="Preparations {.tabset .tabset-fade .tabset-pills}"></a>Preparations {.tabset .tabset-fade .tabset-pills}</h1><h2 id="Load-libraries"><a href="#Load-libraries" class="headerlink" title="Load libraries"></a>Load libraries</h2><p>We load a range of libraries for general data wrangling and general visualisation together with more specialised tools.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## Warning: package &apos;dplyr&apos; was built under R version 3.4.2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## Warning: package &apos;data.table&apos; was built under R version 3.4.2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## Warning: package &apos;tidyr&apos; was built under R version 3.4.2</span><br></pre></td></tr></table></figure>
+<h2 id="Load-data"><a href="#Load-data" class="headerlink" title="Load data"></a>Load data</h2><p>We use <em>data.table’s</em> fread function to speed up reading in the data, even though in this challenge our files are small, under 100KB for both <em>train</em> and <em>test</em>.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train &lt;- as.tibble(fread(<span class="string">'train.csv'</span>))</span><br><span class="line">test &lt;- as.tibble(fread(<span class="string">'test.csv'</span>))</span><br></pre></td></tr></table></figure>
+<h1 id="File-structure-and-data-overview-tabset-tabset-fade-tabset-pills"><a href="#File-structure-and-data-overview-tabset-tabset-fade-tabset-pills" class="headerlink" title="File structure and data overview {.tabset .tabset-fade .tabset-pills}"></a>File structure and data overview {.tabset .tabset-fade .tabset-pills}</h1><p>As a first step let’s have an overview of the data sets using the <em>summary</em> and <em>glimpse</em> tools.</p>
+<h2 id="Training-data"><a href="#Training-data" class="headerlink" title="Training data"></a>Training data</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(train)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">##   PassengerId     Survived         Pclass         Name          </span><br><span class="line">##  Min.   :  1   Min.   :0.000   Min.   :1.00   Length:891        </span><br><span class="line">##  1st Qu.:224   1st Qu.:0.000   1st Qu.:2.00   Class :character  </span><br><span class="line">##  Median :446   Median :0.000   Median :3.00   Mode  :character  </span><br><span class="line">##  Mean   :446   Mean   :0.384   Mean   :2.31                     </span><br><span class="line">##  3rd Qu.:668   3rd Qu.:1.000   3rd Qu.:3.00                     </span><br><span class="line">##  Max.   :891   Max.   :1.000   Max.   :3.00                     </span><br><span class="line">##                                                                 </span><br><span class="line">##      Sex                 Age            SibSp           Parch      </span><br><span class="line">##  Length:891         Min.   : 0.42   Min.   :0.000   Min.   :0.000  </span><br><span class="line">##  Class :character   1st Qu.:20.12   1st Qu.:0.000   1st Qu.:0.000  </span><br><span class="line">##  Mode  :character   Median :28.00   Median :0.000   Median :0.000  </span><br><span class="line">##                     Mean   :29.70   Mean   :0.523   Mean   :0.382  </span><br><span class="line">##                     3rd Qu.:38.00   3rd Qu.:1.000   3rd Qu.:0.000  </span><br><span class="line">##                     Max.   :80.00   Max.   :8.000   Max.   :6.000  </span><br><span class="line">##                     NA&apos;s   :177                                    </span><br><span class="line">##     Ticket               Fare          Cabin          </span><br><span class="line">##  Length:891         Min.   :  0.0   Length:891        </span><br><span class="line">##  Class :character   1st Qu.:  7.9   Class :character  </span><br><span class="line">##  Mode  :character   Median : 14.5   Mode  :character  </span><br><span class="line">##                     Mean   : 32.2                     </span><br><span class="line">##                     3rd Qu.: 31.0                     </span><br><span class="line">##                     Max.   :512.3                     </span><br><span class="line">##                                                       </span><br><span class="line">##    Embarked        </span><br><span class="line">##  Length:891        </span><br><span class="line">##  Class :character  </span><br><span class="line">##  Mode  :character  </span><br><span class="line">##                    </span><br><span class="line">##                    </span><br><span class="line">##                    </span><br><span class="line">##</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glimpse(train)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">## Observations: 891</span><br><span class="line">## Variables: 12</span><br><span class="line">## $ PassengerId &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...</span><br><span class="line">## $ Survived    &lt;int&gt; 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, ...</span><br><span class="line">## $ Pclass      &lt;int&gt; 3, 1, 3, 1, 3, 3, 1, 3, 3, 2, 3, 1, 3, 3, 3, ...</span><br><span class="line">## $ Name        &lt;chr&gt; &quot;Braund, Mr. Owen Harris&quot;, &quot;Cumings, Mrs. Joh...</span><br><span class="line">## $ Sex         &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;,...</span><br><span class="line">## $ Age         &lt;dbl&gt; 22, 38, 26, 35, 35, NA, 54, 2, 27, 14, 4, 58,...</span><br><span class="line">## $ SibSp       &lt;int&gt; 1, 1, 0, 1, 0, 0, 0, 3, 0, 1, 1, 0, 0, 1, 0, ...</span><br><span class="line">## $ Parch       &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 5, 0, ...</span><br><span class="line">## $ Ticket      &lt;chr&gt; &quot;A/5 21171&quot;, &quot;PC 17599&quot;, &quot;STON/O2. 3101282&quot;, ...</span><br><span class="line">## $ Fare        &lt;dbl&gt; 7.250, 71.283, 7.925, 53.100, 8.050, 8.458, 5...</span><br><span class="line">## $ Cabin       &lt;chr&gt; &quot;&quot;, &quot;C85&quot;, &quot;&quot;, &quot;C123&quot;, &quot;&quot;, &quot;&quot;, &quot;E46&quot;, &quot;&quot;, &quot;&quot;,...</span><br><span class="line">## $ Embarked    &lt;chr&gt; &quot;S&quot;, &quot;C&quot;, &quot;S&quot;, &quot;S&quot;, &quot;S&quot;, &quot;Q&quot;, &quot;S&quot;, &quot;S&quot;, &quot;S&quot;, ...</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>There are a number of features here. In total, our <em>training</em> data has 12 variables, including <em>PassengerId</em> and <em>Survived</em>. In some of them we already see a number of missing values.</li>
+<li>Note the <a href="https://www.kaggle.com/c/titanic/data" target="_blank" rel="noopener">data description</a> provides ancillary information on keys and labeling.</li>
+</ul>
+<h2 id="Test-data"><a href="#Test-data" class="headerlink" title="Test data"></a>Test data</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(test)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">##   PassengerId       Pclass         Name               Sex           </span><br><span class="line">##  Min.   : 892   Min.   :1.00   Length:418         Length:418        </span><br><span class="line">##  1st Qu.: 996   1st Qu.:1.00   Class :character   Class :character  </span><br><span class="line">##  Median :1100   Median :3.00   Mode  :character   Mode  :character  </span><br><span class="line">##  Mean   :1100   Mean   :2.27                                        </span><br><span class="line">##  3rd Qu.:1205   3rd Qu.:3.00                                        </span><br><span class="line">##  Max.   :1309   Max.   :3.00                                        </span><br><span class="line">##                                                                     </span><br><span class="line">##       Age            SibSp           Parch          Ticket         </span><br><span class="line">##  Min.   : 0.17   Min.   :0.000   Min.   :0.000   Length:418        </span><br><span class="line">##  1st Qu.:21.00   1st Qu.:0.000   1st Qu.:0.000   Class :character  </span><br><span class="line">##  Median :27.00   Median :0.000   Median :0.000   Mode  :character  </span><br><span class="line">##  Mean   :30.27   Mean   :0.447   Mean   :0.392                     </span><br><span class="line">##  3rd Qu.:39.00   3rd Qu.:1.000   3rd Qu.:0.000                     </span><br><span class="line">##  Max.   :76.00   Max.   :8.000   Max.   :9.000                     </span><br><span class="line">##  NA&apos;s   :86                                                        </span><br><span class="line">##       Fare          Cabin             Embarked        </span><br><span class="line">##  Min.   :  0.0   Length:418         Length:418        </span><br><span class="line">##  1st Qu.:  7.9   Class :character   Class :character  </span><br><span class="line">##  Median : 14.5   Mode  :character   Mode  :character  </span><br><span class="line">##  Mean   : 35.6                                        </span><br><span class="line">##  3rd Qu.: 31.5                                        </span><br><span class="line">##  Max.   :512.3                                        </span><br><span class="line">##  NA&apos;s   :1</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glimpse(test)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## Observations: 418</span><br><span class="line">## Variables: 11</span><br><span class="line">## $ PassengerId &lt;int&gt; 892, 893, 894, 895, 896, 897, 898, 899, 900, ...</span><br><span class="line">## $ Pclass      &lt;int&gt; 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 1, 1, 2, 1, ...</span><br><span class="line">## $ Name        &lt;chr&gt; &quot;Kelly, Mr. James&quot;, &quot;Wilkes, Mrs. James (Elle...</span><br><span class="line">## $ Sex         &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;...</span><br><span class="line">## $ Age         &lt;dbl&gt; 34.5, 47.0, 62.0, 27.0, 22.0, 14.0, 30.0, 26....</span><br><span class="line">## $ SibSp       &lt;int&gt; 0, 1, 0, 0, 1, 0, 0, 1, 0, 2, 0, 0, 1, 1, 1, ...</span><br><span class="line">## $ Parch       &lt;int&gt; 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ...</span><br><span class="line">## $ Ticket      &lt;chr&gt; &quot;330911&quot;, &quot;363272&quot;, &quot;240276&quot;, &quot;315154&quot;, &quot;3101...</span><br><span class="line">## $ Fare        &lt;dbl&gt; 7.829, 7.000, 9.688, 8.662, 12.287, 9.225, 7....</span><br><span class="line">## $ Cabin       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;...</span><br><span class="line">## $ Embarked    &lt;chr&gt; &quot;Q&quot;, &quot;S&quot;, &quot;Q&quot;, &quot;S&quot;, &quot;S&quot;, &quot;S&quot;, &quot;Q&quot;, &quot;S&quot;, &quot;C&quot;, ...</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>Our <em>test</em> data has 11 variables, as it excludes the <em>Survived</em> feature which is the object of interest in our analysis.</li>
+</ul>
+<h2 id="Missing-values"><a href="#Missing-values" class="headerlink" title="Missing values"></a>Missing values</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colSums(is.na(train))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">## PassengerId    Survived      Pclass        Name         Sex </span><br><span class="line">##           0           0           0           0           0 </span><br><span class="line">##         Age       SibSp       Parch      Ticket        Fare </span><br><span class="line">##         177           0           0           0           0 </span><br><span class="line">##       Cabin    Embarked </span><br><span class="line">##           0           0</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colSums(is.na(test))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">## PassengerId      Pclass        Name         Sex         Age </span><br><span class="line">##           0           0           0           0          86 </span><br><span class="line">##       SibSp       Parch      Ticket        Fare       Cabin </span><br><span class="line">##           0           0           0           1           0 </span><br><span class="line">##    Embarked </span><br><span class="line">##           0</span><br></pre></td></tr></table></figure>
+<p>There are 177 and 87 missing values for the <em>training</em> data and <em>test</em> data, respectively. The majority are missing ages but there is also a missing fare.</p>
+<h1 id="Investigate-how-individual-features-impact-survival"><a href="#Investigate-how-individual-features-impact-survival" class="headerlink" title="Investigate how individual features impact survival"></a>Investigate how individual features impact survival</h1><p>We first investigate our feature space to gain a better understanding on how they relate to the predictor and one another. Lets first understand the number of passengers that survived versus those that did not.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.table(table(train$Survived))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">##      0      1 </span><br><span class="line">## 0.6162 0.3838</span><br></pre></td></tr></table></figure>
+<p>In the training data set 342 passengers out of 891 survived. Assuming the training data is a fair representation of the full data set, then approximately 38 out of every hundred passengers on the Titanic survived.</p>
+<h2 id="Impact-of-gender-on-survival"><a href="#Impact-of-gender-on-survival" class="headerlink" title="Impact of gender on survival"></a>Impact of gender on survival</h2><p>Lets investigate the proportion of men and women who survived.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.table(table(train$Sex, train$Survived), margin = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##         </span><br><span class="line">##               0      1</span><br><span class="line">##   female 0.2580 0.7420</span><br><span class="line">##   male   0.8111 0.1889</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>74% of females survived while only 19% of males survived. So gender appears to have an impact on a passengers survival rate.</li>
+</ul>
+<h2 id="Impact-of-ticket-class-and-fare-on-survival"><a href="#Impact-of-ticket-class-and-fare-on-survival" class="headerlink" title="Impact of ticket class and fare on survival."></a>Impact of ticket class and fare on survival.</h2><p>Impact of Ticket Class:</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.table(table(train$Pclass, train$Survived), margin = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">##    </span><br><span class="line">##          0      1</span><br><span class="line">##   1 0.3704 0.6296</span><br><span class="line">##   2 0.5272 0.4728</span><br><span class="line">##   3 0.7576 0.2424</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>Passengers in first class have the highest rate of survival.</li>
+<li>The rate of survival reduces for passengers with the lower class of ticket.</li>
+</ul>
+<p>Impact of Fare:</p>
+<p>It can be expected that there is some degree of correlation between the <em>Fare</em> and <em>Pclass</em> variables with the first class passengers paying the highest fares. If this assumption holds true then we might expect a higher chance of survival with increasing fare. So lets see if that’s the case. We shall examine the training and test data together as we first wish to understand the correlation between <em>Fare</em> and <em>Pclass</em> variables at the moment.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">all_dataInvestigate &lt;- bind_rows(train, test)</span><br><span class="line"><span class="comment"># We have a missing fare for passenger 1044 which we set to the median fare</span></span><br><span class="line">all_dataInvestigate$Fare[<span class="number">1044</span>] &lt;- median(all_dataInvestigate$Fare, na.rm = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># Plot data</span></span><br><span class="line">fig.4.2.a &lt;- ggplot(all_dataInvestigate, aes(x = factor(Pclass), y = Fare)) +</span><br><span class="line">  geom_boxplot() +</span><br><span class="line">  theme(axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        panel.grid.major.y = element_line(colour = <span class="string">"grey"</span>),</span><br><span class="line">        legend.position=<span class="string">"none"</span>) +</span><br><span class="line">  labs(x = <span class="string">"Pclass"</span>, y = <span class="string">"Fare (units)"</span>, title = <span class="string">"Fig 4.2.a: Fare box plots for each passenger class."</span>)</span><br><span class="line">plot(fig.4.2.a)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11"></p>
+<p>We do see an increase in the mean fare price as we consider passengers in higher classes(<em>Pclass</em> = 1 being first or highest class). Interestingly, we also observe outlier fares in each of the classes which indicate some passengers in lower classes pay more for their ticket than in the upper classes. Let see an example of one of these outlier fares to see why this may be the case.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filtered &lt;- all_dataInvestigate %&gt;% filter((Pclass==<span class="number">2</span> &amp; Fare &gt; <span class="number">30.0</span>)) %&gt;% arrange(desc(Fare)) %&gt;% head(<span class="number">10</span>)</span><br><span class="line">kable(filtered, caption=<span class="string">"Second class (Pclass=2) passengers with ticket Fares greater than 30.00, ordered by fare"</span>)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">PassengerId</th>
+<th style="text-align:right">Survived</th>
+<th style="text-align:right">Pclass</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Sex</th>
+<th style="text-align:right">Age</th>
+<th style="text-align:right">SibSp</th>
+<th style="text-align:right">Parch</th>
+<th style="text-align:left">Ticket</th>
+<th style="text-align:right">Fare</th>
+<th style="text-align:left">Cabin</th>
+<th style="text-align:left">Embarked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">73</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Hood, Mr. Ambrose Jr</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">21</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">121</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Hickman, Mr. Stanley George</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">21</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">386</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Davies, Mr. Charles Henry</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">656</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Hickman, Mr. Leonard Mark</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">24</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">666</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Hickman, Mr. Lewis</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">32</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">1104</td>
+<td style="text-align:right">NA</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Deacon, Mr. Percy William</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">17</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">1244</td>
+<td style="text-align:right">NA</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Dibden, Mr. William</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">S.O.C. 14879</td>
+<td style="text-align:right">73.5</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">616</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Herman, Miss. Alice</td>
+<td style="text-align:left">female</td>
+<td style="text-align:right">24</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">220845</td>
+<td style="text-align:right">65.0</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">755</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Herman, Mrs. Samuel (Jane Laver)</td>
+<td style="text-align:left">female</td>
+<td style="text-align:right">48</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">220845</td>
+<td style="text-align:right">65.0</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+<tr>
+<td style="text-align:right">1122</td>
+<td style="text-align:right">NA</td>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Sweet, Mr. George Frederick</td>
+<td style="text-align:left">male</td>
+<td style="text-align:right">14</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:left">220845</td>
+<td style="text-align:right">65.0</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">S</td>
+</tr>
+</tbody>
+</table>
+<p>It is apparent that some passengers have purchased tickets as a group (they have the same ticket number). These passengers are usually part of a family or maybe friends. Observe the same surnames in the <em>Name</em> column, or non zero values in the number of spouse or parent and siblings variables (<em>Parch</em> or <em>SibSp</em>). A more accurate way of representing the fare would be to calculate the fare-per-person. We perform this calculation on only those passengers which have the same Fare and Ticket number. We then re-plot the results as a factored <em>Pclass</em> boxplot.</p>
+<p>Note- we must consider both the train and test data sets together to determine all of the passengers that have a group fare.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">all_dataInvestigate &lt;- all_dataInvestigate %&gt;%</span><br><span class="line">  group_by(Ticket, Fare) %&gt;%</span><br><span class="line">  dplyr::mutate(FarePerPerson = Fare / n())</span><br><span class="line"></span><br><span class="line">fig.4.2.b &lt;- ggplot(all_dataInvestigate, aes(x = factor(Pclass), y = FarePerPerson)) +</span><br><span class="line">  geom_boxplot() +</span><br><span class="line">    theme(axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        panel.grid.major.y = element_line(colour = <span class="string">"grey"</span>),</span><br><span class="line">        legend.position=<span class="string">"none"</span>) +</span><br><span class="line">  labs(x = <span class="string">"Pclass"</span>, y = <span class="string">"Fare per person (units)"</span>, title = <span class="string">"Fig 4.2.b: Fare-per-person box plots for each passenger class."</span>)</span><br><span class="line">plot(fig.4.2.b)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13"></p>
+<p>Examining <em>Fig 4.2.b</em>, we see the number of outliers and the length of the box whiskers have been reduced. There is now a much clearer fare distinction between the passenger classes with little or no overlap between the whiskers of each box plot. Also apparent by the reduction of whisker size is the zero fare outliers. These passengers may have got free tickets, but is more likely they are null values encoded as 0.</p>
+<p>To determine the correlation between the variable of <em>Pclass</em> and <em>FarePerPerson</em> we use Pearsons Correlation Coefficient, as we have ordinal and continuous variables, respectively. We do this for both the <em>Fare</em> variable and our engineered feature <em>FarePerPerson</em> and compare coefficients.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainInvestigate &lt;- all_dataInvestigate[<span class="number">1</span>:<span class="number">891</span>,]</span><br><span class="line"><span class="comment"># Pearson Correlation for Fare and Pclass</span></span><br><span class="line">cor.test(trainInvestigate$Pclass, trainInvestigate$Fare, method = <span class="string">"pearson"</span>, use = <span class="string">"complete.obs"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">## 	Pearson&apos;s product-moment correlation</span><br><span class="line">## </span><br><span class="line">## data:  trainInvestigate$Pclass and trainInvestigate$Fare</span><br><span class="line">## t = -20, df = 890, p-value &lt;2e-16</span><br><span class="line">## alternative hypothesis: true correlation is not equal to 0</span><br><span class="line">## 95 percent confidence interval:</span><br><span class="line">##  -0.5937 -0.5019</span><br><span class="line">## sample estimates:</span><br><span class="line">##     cor </span><br><span class="line">## -0.5495</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Pearson Correlation for FarePerPerson and Pclass</span></span><br><span class="line">cor.test(trainInvestigate$Pclass, trainInvestigate$FarePerPerson, method = <span class="string">"pearson"</span>, use = <span class="string">"complete.obs"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">## 	Pearson&apos;s product-moment correlation</span><br><span class="line">## </span><br><span class="line">## data:  trainInvestigate$Pclass and trainInvestigate$FarePerPerson</span><br><span class="line">## t = -35, df = 890, p-value &lt;2e-16</span><br><span class="line">## alternative hypothesis: true correlation is not equal to 0</span><br><span class="line">## 95 percent confidence interval:</span><br><span class="line">##  -0.7888 -0.7337</span><br><span class="line">## sample estimates:</span><br><span class="line">##     cor </span><br><span class="line">## -0.7627</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>Pearson coefficient between <em>Pclass</em> and <em>Fare</em> is -0.55.</li>
+<li>Pearson coefficient between <em>Pclass</em> and <em>FarePerPerson</em> are -0.76.</li>
+<li>The <em>FarePerPerson</em> variable is more highly correlated with <em>Pclass</em> after removing the impact of Group tickets.</li>
+<li>As the <em>Pclass</em> and <em>FarePerPerson</em> variables have a relatively strong correlation, we should consider the impact of multicollininarity on our chosen model in section 5.</li>
+</ul>
+<p>Let’s now consider the impact of <em>FarePerPerson</em> on survival. Note- we only consider the training data and those <em>FarePerPerson</em> greater than 0.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Select fares above 0</span></span><br><span class="line">trainInvestigate_farePerPerson &lt;- trainInvestigate[(trainInvestigate$FarePerPerson&gt;<span class="number">0.0</span>), ]</span><br><span class="line"><span class="comment"># Group fares in 5 unit intervals</span></span><br><span class="line">trainInvestigate_farePerPerson$fareGroup &lt;- cut(trainInvestigate_farePerPerson$FarePerPerson, seq(<span class="number">0</span>, <span class="number">130</span>, <span class="number">5</span>), include.lowest=<span class="literal">T</span>)</span><br><span class="line"><span class="comment"># Plot</span></span><br><span class="line">fig.4.2.c &lt;- ggplot(trainInvestigate_farePerPerson, aes(x = fareGroup)) +</span><br><span class="line">  geom_bar(stat=<span class="string">'count'</span>, aes(fill = factor(Survived)), position = <span class="string">'fill'</span>) +</span><br><span class="line">      theme(axis.text.x = element_text(angle = <span class="number">50</span>, hjust = <span class="number">1</span>),</span><br><span class="line">            axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        panel.grid.major.y = element_line(colour = <span class="string">"grey"</span>)) +</span><br><span class="line">  labs(x = <span class="string">"Fare-per-person"</span>, y = <span class="string">"Survival rate"</span>, title = <span class="string">"Fig 4.2.c: Passenger survival rate for grouped fares per person."</span>) +</span><br><span class="line">  scale_fill_discrete(name  =<span class="string">"Survived"</span>)</span><br><span class="line">plot(fig.4.2.c)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15"></p>
+<p>Examining <em>Fig 4.2.c</em>, there is a trend indicating the proportion of passengers surviving at each Fare grouping increases as the values in Fares increase. For Fare’s above 55 the trend is not as easy to discern but such values are considered outliers for first class ticket holders. Comparing with the variable <em>Pclass</em>‘s impact on surviving, we observe much more granularity which could be expected to improve our prediction later.</p>
+<p>It would also be interesting to know how the price of a Fare relates to a cabin’s location on the ship. We can hypothesize that the cheapest tickets would likely provide passengers with a cabin lower in the ship. Subsequently, such passengers may find themselves at the back of the queue for lifeboats once they had made it to deck, lowering their overall chance of survival. Unfortunately, many of the cabins numbers are not present in the <em>Cabin</em> variable so we can not test this hypothesis.</p>
+<h2 id="Impact-of-age-on-survival"><a href="#Impact-of-age-on-survival" class="headerlink" title="Impact of age on survival"></a>Impact of age on survival</h2><p>We now consider the survival rate of different age groups. We have removed all passengers that have no age recorded, and grouped passengers into 5 year age intervals, with the first as <em>0-5 years</em> and the last <em>75-80</em> years.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">train_age &lt;- train[(!is.na(train$Age)), ]</span><br><span class="line">train_age$Age_group &lt;- cut(train_age$Age, seq(<span class="number">0</span>, <span class="number">85</span>, <span class="number">5</span>), include.lowest=<span class="literal">T</span>)</span><br><span class="line"><span class="comment"># Plot</span></span><br><span class="line">fig.4.3.a &lt;- ggplot(train_age, aes(x = Age_group)) +</span><br><span class="line">  geom_bar(stat=<span class="string">'count'</span>, aes(fill = factor(Survived)), position = <span class="string">'fill'</span>) +</span><br><span class="line">        theme(axis.text.x = element_text(angle = <span class="number">50</span>, hjust = <span class="number">1</span>),</span><br><span class="line">            axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        panel.grid.major.y = element_line(colour = <span class="string">"grey"</span>)) +</span><br><span class="line">  labs(x = <span class="string">"Age"</span>, y = <span class="string">"Survival rate"</span>, title = <span class="string">"Fig 4.3.a: Passenger survival rate for grouped ages."</span>) +</span><br><span class="line">  scale_fill_discrete(name =<span class="string">"Survived"</span>)</span><br><span class="line">plot(fig.4.3.a)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16"></p>
+<p>The rate of survival is highest* among the youngest age grouping of <em>0-5 years</em>.<br>In general, most age groups have similar rates of survival, so it appears that age may not be a great predictor of whether a passenger survived or not</p>
+<p>* Note- there was only a single passenger in the 75-80 year age group. While this passenger survived, overall there are not enough passengers in the higher age ranges to provide data for confident predictions.</p>
+<h2 id="Impact-of-family-relations-on-survival"><a href="#Impact-of-family-relations-on-survival" class="headerlink" title="Impact of family relations on survival"></a>Impact of family relations on survival</h2><p>There are two variables that consider family relations, <em>Sibsp</em> - whether a passenger is a sibling or spouse, and <em>Parch</em> - whether parent, child. It would be interesting to consider whether travelling alone or with family had an impact on survival. Lets then use these variables to create a <em>Family</em> variable, with labels of <em>Single</em> (no family members present) and <em>Family</em> (&gt; 0 family members present)</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainInvestigate &lt;- train %&gt;% dplyr::mutate(Family= ifelse(SibSp &gt; <span class="number">0</span> | Parch &gt; <span class="number">0</span>, <span class="string">"Multiple"</span>, <span class="string">"Single"</span>))</span><br><span class="line">prop.table(table(trainInvestigate$Family, trainInvestigate$Survived), margin = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##           </span><br><span class="line">##                 0      1</span><br><span class="line">##   Multiple 0.4944 0.5056</span><br><span class="line">##   Single   0.6965 0.3035</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>Single passengers have a lower rate of survival compared with those traveling with family.</li>
+<li>Passengers travelling with family members have 0.51 rate of survival, which is considerably better than the overall rate of survival.</li>
+</ul>
+<h2 id="Impact-of-departure-port-on-survival"><a href="#Impact-of-departure-port-on-survival" class="headerlink" title="Impact of departure port on survival"></a>Impact of departure port on survival</h2><p>Passengers embarked from three different ports designated as <em>S</em> (Southampton), <em>C</em> (Cherbourg) and <em>Q</em> (Queenstown), and the survival rates for these passengers are;</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.table(table(train$Embarked, train$Survived), margin = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">##    </span><br><span class="line">##          0      1</span><br><span class="line">##     0.0000 1.0000</span><br><span class="line">##   C 0.4464 0.5536</span><br><span class="line">##   Q 0.6104 0.3896</span><br><span class="line">##   S 0.6630 0.3370</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>Passengers embarking from Cherbourg in France had the highest survival rate of 55%</li>
+<li>Passengers embarking from Southampton in England had the lowest survival rate of 34%</li>
+</ul>
+<h2 id="Impact-of-nationality-on-survival"><a href="#Impact-of-nationality-on-survival" class="headerlink" title="Impact of nationality on survival"></a>Impact of nationality on survival</h2><p>A potentially interesting investigation is to consider whether a passengers<br>nationality has an impact on survival rate. To extract a passengers nationality we shall consider their name and utilise an open source name &lt;-&gt; nationality predictor at <em>NamePrism</em>. We use the open API from <em><a href="http://www.name-prism.com/api" target="_blank" rel="noopener">http://www.name-prism.com/api</a></em> to determine<br>ethnicity. Details from site;</p>
+<p><em>NamePrism is a non-commercial nationality/ethnicity classification tool that aims to support academic research, e.g. sociology and demographic studies. In this project, we learn name embeddings for name parts (first/last names) and classify names to 39 leaf nationalities and 6 U.S. ethnicities. Please cite following paper if you used this tool in your work.</em></p>
+<p>Nationality Classification using Name Embeddings. Junting Ye, Shuchu Han, Yifan Hu, Baris Coskun, Meizhu Liu, Hong Qin and Steven Skiena. CIKM, Singapore, Nov. 2017.</p>
+<p>I have submitted the results of this data manipulation to Kaggle as a new data set with the new variable <em>Nationality</em>. Steps performed in this data manipulation are however discussed below;</p>
+<p>To perform a request at <em>Name Prism</em> we must first extract the First name and<br>Surname from the <em>Name</em> variable, and URL encode it. We shall also consider married women’s (name title designation identified as <em>Mrs</em>) first names even though their husbands names are given precedence.</p>
+<p>First, we create a separate data frame <em>Nationality</em> with the train$Name<br>column to allow us to perform our data manipulations in easy to follow steps.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainNationalitySubset &lt;- train[,c(<span class="string">"PassengerId"</span>,<span class="string">"Name"</span>)]</span><br></pre></td></tr></table></figure>
+<p>Next, employ the <em>formatName</em> function to extract first names and surnames<br>into new column <em>FullName</em>. In this step we also modify the output so the<br>names are in a form that can make a GET request at <em>NamePrism</em> API<br>eg. {base_url}/{firstName}%20{Surname}.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainNationalitySubset$FullName &lt;- lapply(as.character(trainNationalitySubset$Name), formatName)</span><br></pre></td></tr></table></figure>
+<p>We then extract the most probable nationality for each passenger. Note- the code snippet below has a long execution time as it is making sequential requests to <em>NamePrism</em> API. It is not executed here, but the results are provided in the <em>trainNationalitySubset</em> dataframe. Additionally, please note that <em>NamePrism</em> API has a daily usage limit of 1000 requests.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Name preperation</span></span><br><span class="line">formatName &lt;- <span class="keyword">function</span>(name) &#123;</span><br><span class="line">  title &lt;- gsub(<span class="string">'(.*, )|(\\..*)'</span>, <span class="string">''</span>, name)</span><br><span class="line">  nameSplit &lt;- strsplit(name, split = <span class="string">'[,./]'</span>)</span><br><span class="line">  surname &lt;- gsub(<span class="string">" "</span>, <span class="string">"%20"</span>, nameSplit[[<span class="number">1</span>]][<span class="number">1</span>], fixed = <span class="literal">TRUE</span>)</span><br><span class="line">  firstname &lt;- strsplit(nameSplit[[<span class="number">1</span>]][<span class="number">3</span>], split = <span class="string">'[ ]'</span>)[[<span class="number">1</span>]][<span class="number">2</span>]</span><br><span class="line">  <span class="keyword">if</span>(title==<span class="string">'Mrs'</span>) &#123;</span><br><span class="line">    maidenFullName &lt;- regmatches(name, gregexpr(<span class="string">"(?&lt;=\\().*?(?=\\))"</span>, name, perl=<span class="literal">T</span>))[[<span class="number">1</span>]]</span><br><span class="line">    <span class="keyword">if</span> (length(maidenFullName)!=<span class="number">0</span>) &#123;</span><br><span class="line">      firstname &lt;- strsplit(maidenFullName, split = <span class="string">"[ ]"</span>)[[<span class="number">1</span>]][<span class="number">1</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  paste(firstname, surname, sep= <span class="string">"%20"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># API request and process response</span></span><br><span class="line">requestLocation &lt;- <span class="keyword">function</span>(name) &#123;</span><br><span class="line">  url &lt;- paste(<span class="string">"http://www.name-prism.com/api/json/"</span>, name, sep=<span class="string">''</span>)</span><br><span class="line">  response &lt;- fromJSON(url, simplifyDataFrame = <span class="literal">FALSE</span>)</span><br><span class="line">  nationalityProbs &lt;- as_data_frame(response)</span><br><span class="line">  nationality &lt;- colnames(nationalityProbs)[apply(nationalityProbs,<span class="number">1</span>,which.max)]</span><br><span class="line">  nationality</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># Make requests to Name Prism api</span></span><br><span class="line">trainNationalitySubset$Nationality &lt;- sapply(trainInvestigateNationalitySubset$fullName, requestLocation)</span><br><span class="line"><span class="comment"># Exclude redundant columns</span></span><br><span class="line">trainNationalitySubset = trainNationalitySubset[ , c(<span class="string">"PassengerId"</span>, <span class="string">"Nationality"</span>)]</span><br></pre></td></tr></table></figure>
+<p>Finally, we import the <em>trainNationalitySubset</em> dataframe and merge the Nationality variable with the <em>train</em> data set.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Import</span></span><br><span class="line">trainNationalitySubset &lt;- as.tibble(fread(<span class="string">'trainNationalitySubset.csv'</span>))</span><br><span class="line"><span class="comment"># Merge</span></span><br><span class="line">trainInvestigateNationality &lt;- merge(x = train, y = trainNationalitySubset, by = <span class="string">"PassengerId"</span>, all.x=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>Now that we have completed the data preparation lets first consider the passenger nationalities and their survival numbers.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">table(trainInvestigateNationality$Nationality, trainInvestigateNationality$Survived)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">##                               </span><br><span class="line">##                                  0   1</span><br><span class="line">##   African,EastAfrican            2   1</span><br><span class="line">##   African,WestAfrican            1   0</span><br><span class="line">##   CelticEnglish                287 206</span><br><span class="line">##   EastAsian,Chinese              1   2</span><br><span class="line">##   EastAsian,Indochina,Vietnam    1   1</span><br><span class="line">##   EastAsian,Malay,Indonesia     12   3</span><br><span class="line">##   EastAsian,Malay,Malaysia       1   0</span><br><span class="line">##   EastAsian,South Korea          1   0</span><br><span class="line">##   European,French               39  40</span><br><span class="line">##   European,German               43  27</span><br><span class="line">##   European,Italian,Italy         4   4</span><br><span class="line">##   European,Italian,Romania       2   0</span><br><span class="line">##   European,Russian               1   0</span><br><span class="line">##   European,SouthSlavs           15   1</span><br><span class="line">##   Greek                          1   1</span><br><span class="line">##   Hispanic,Philippines           2   0</span><br><span class="line">##   Hispanic,Portuguese           10   6</span><br><span class="line">##   Hispanic,Spanish              23  17</span><br><span class="line">##   Muslim,Nubian                 10   2</span><br><span class="line">##   Muslim,Pakistanis,Bangladesh   0   1</span><br><span class="line">##   Muslim,Persian                 2   0</span><br><span class="line">##   Muslim,Turkic,Turkey           1   0</span><br><span class="line">##   Nordic,Finland                14   9</span><br><span class="line">##   Nordic,Scandinavian,Denmark   11   0</span><br><span class="line">##   Nordic,Scandinavian,Norway    13   4</span><br><span class="line">##   Nordic,Scandinavian,Sweden    50  17</span><br><span class="line">##   SouthAsian                     2   0</span><br></pre></td></tr></table></figure>
+<p>We find:</p>
+<ul>
+<li>The largest Nationality by passenger name is categorised as <em>CelticEnglish</em>, which is to be expected as most passengers embarked from ports in England and Ireland</li>
+<li>The next largest Nationalities are <em>European, French</em>, <em>European, German</em> and <em>Nordic,Scandinavian,Sweden</em>.</li>
+<li>In Figures 4.6.a and 4.6.b we immediately see there are some very different survival rates between different nationalities. This engineered variable could prove a useful addition to our model later.</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">fig.4.6.a = ggplot(trainInvestigateNationality, aes(x = reorder(Nationality,Nationality, <span class="keyword">function</span>(x)-length(x)))) +</span><br><span class="line">  geom_bar(stat=<span class="string">'count'</span>, aes(fill = factor(Survived)), position = <span class="string">'stack'</span>) +</span><br><span class="line">  theme(axis.text.x = element_text(angle = <span class="number">50</span>, hjust = <span class="number">1</span>),</span><br><span class="line">        axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        panel.grid.major.y = element_line(colour = <span class="string">"grey"</span>)) +</span><br><span class="line">  labs(x = <span class="string">"Nationality"</span>, y = <span class="string">"Number of Passengers"</span>, title = <span class="string">"Fig 4.6.a: Passenger survival by nationality ordered by largest nationality"</span>) +</span><br><span class="line">  scale_fill_discrete(name  =<span class="string">"Survived"</span>)</span><br><span class="line"></span><br><span class="line">fig.4.6.b = ggplot(trainInvestigateNationality, aes(x = reorder(Nationality,Nationality, <span class="keyword">function</span>(x)-length(x)))) +</span><br><span class="line">  geom_bar(stat=<span class="string">'count'</span>, aes(fill = factor(Survived)), position = <span class="string">'fill'</span>) +</span><br><span class="line">  theme(axis.text.x = element_text(angle = <span class="number">50</span>, hjust = <span class="number">1</span>),</span><br><span class="line">        axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank()) +</span><br><span class="line">  labs(x = <span class="string">"Nationality"</span>, y = <span class="string">"Survival Rate"</span>, title = <span class="string">"Fig 4.6.b: Passenger survival rate by Nationality"</span>) +</span><br><span class="line">  scale_fill_discrete(name  =<span class="string">"Survived"</span>)</span><br><span class="line">plot(fig.4.6.a)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot(fig.4.6.b)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-24-2.png" alt="plot of chunk unnamed-chunk-24"></p>
+<p>Examining Figure 4.6.a and 4.6.b there are some very different survival rates between nationalities. The largest nationality <em>CelticEnglish</em> has a survival rate of 42% which is close to, but slightly higher than the overall survival rate of 38%. The second largest nationality, <em>European, French</em> had a survival rate of 51% which is coincidentally similar to the survival rate of those passengers whom embarked at Cherbourg at 55%.  Other nationalities have differing survival rates, eg <em>European, German</em> - 39% and <em>Nordic,Scandinavian,Sweden</em> - 25%. Clearly, some nationalities found it easier to get on a lifeboat than others.</p>
+<h1 id="Predicting-passenger-survival"><a href="#Predicting-passenger-survival" class="headerlink" title="Predicting passenger survival"></a>Predicting passenger survival</h1><p>We shall now consider and implement a number of statistical learning techniques to generate a model that predicts whether a passenger survives or not.</p>
+<p>As we seek to categorise each passenger into either class 0 (not survived) or class 1 (survived) we might consider methods that seek to classify responses. Methods we might consider in this problem include: logistic regression, k-nearest neighbour, trees, random forests, boosting, and support vector machines.</p>
+<p>I shall not consider optimising these techniques with improved feature selection or by tuning fitting parameters, as I simply want to compare each and demonstrate their implementation.</p>
+<h2 id="Clean-data-and-incorporate-engineered-features"><a href="#Clean-data-and-incorporate-engineered-features" class="headerlink" title="Clean data and incorporate engineered features"></a>Clean data and incorporate engineered features</h2><p>The subsequent steps detail the pre-requisite steps undertaken to prepare the data for implementation of our trial models.</p>
+<p>First, combine the <em>train</em> and <em>test</em> data frames for homogeneous treatment.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data &lt;- bind_rows(train, test)</span><br></pre></td></tr></table></figure>
+<p>Attempt to fill in missing values for passengers <em>Embarkment</em> point, <em>Fare</em> and <em>Age</em>. Set missing embarkment values as <em>S</em> as this port has the largest number of passengers joining the Titanic.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort(table(all_data$Embarked),decreasing=<span class="literal">TRUE</span>)[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##   S </span><br><span class="line">## 914</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data$Embarked[c(<span class="number">62</span>, <span class="number">830</span>)] &lt;- <span class="string">"S"</span></span><br></pre></td></tr></table></figure>
+<p>Set the <em>NA</em> <em>Fare</em> as the median value.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">median(all_data$Fare, na.rm = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 14.45</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data$Fare[<span class="number">1044</span>] &lt;- median(all_data$Fare, na.rm = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>Due to the large number of missing <em>Age</em> values we predict them using the other variables and a decision tree model with the <em>anova</em> method.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">predicted_age &lt;- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked,</span><br><span class="line">                       data = all_data[!is.na(all_data$Age),], method = <span class="string">"anova"</span>)</span><br><span class="line">all_data$Age[is.na(all_data$Age)] &lt;- predict(predicted_age, all_data[is.na(all_data$Age),])</span><br></pre></td></tr></table></figure>
+<p>Ensure, all categorical variables are encoded as factors.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">all_data$Name = as.factor(all_data$Name)</span><br><span class="line">all_data$Sex = as.factor(all_data$Sex)</span><br><span class="line">all_data$Ticket = as.factor(all_data$Ticket)</span><br><span class="line">all_data$Cabin = as.factor(all_data$Cabin)</span><br><span class="line">all_data$Embarked = as.factor(all_data$Embarked)</span><br></pre></td></tr></table></figure>
+<p>We now add in the variables engineered in the previous section on <em>Nationality</em>, <em>FarePerPerson</em>, and <em>Family</em>.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># FarePerPerson</span></span><br><span class="line">all_data &lt;- all_data %&gt;%</span><br><span class="line">  group_by(Ticket, Fare) %&gt;%</span><br><span class="line">  dplyr::mutate(FarePerPerson = Fare / n())</span><br><span class="line"><span class="comment"># Family</span></span><br><span class="line">all_data &lt;- all_data %&gt;%</span><br><span class="line">  dplyr::mutate(Family= ifelse(SibSp &gt; <span class="number">0</span> | Parch &gt; <span class="number">0</span>, <span class="string">"Multiple"</span>, <span class="string">"Single"</span>))</span><br><span class="line"><span class="comment"># Nationality</span></span><br><span class="line">trainNationalitySubset &lt;- as.tibble(fread(<span class="string">'trainNationalitySubset.csv'</span>))</span><br><span class="line">testNationalitySubset &lt;- as.tibble(fread(<span class="string">'testNationalitySubset.csv'</span>))</span><br><span class="line">all_dataNationalitySubset &lt;- bind_rows(trainNationalitySubset, testNationalitySubset)</span><br><span class="line">all_data &lt;- merge(x = all_data, y = all_dataNationalitySubset, by = <span class="string">"PassengerId"</span>, all.x=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>In the next step the <em>Nationality</em> variable was <em>one-hot encoded</em>. While it usually unnecessary to <em>one-hot encode</em> categorical variables in R, as most models do this automatically under the hood, we can run into issues if we employ cross validation methods. If we separate the training data into folds we may end up in a situation where a categorical variable is not present in the training set but is present in the holdout set, which will cause an error when making predictions. In the case of the <em>Nationality</em> variable there are several categories that only occur making this a real possibility.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dummy = acm.disjonctif(all_data[<span class="string">'Nationality'</span>])</span><br><span class="line">all_data[<span class="string">'Nationality'</span>] = <span class="literal">NULL</span></span><br><span class="line">all_data = cbind(all_data, dummy)</span><br><span class="line">all_data &lt;- all_data %&gt;%</span><br><span class="line">  mutate_at(vars(starts_with(<span class="string">"Nationality"</span>)), funs(as.integer))</span><br><span class="line">names(all_data) &lt;- make.names(names(all_data))</span><br></pre></td></tr></table></figure>
+<p>Ensure categorical engineered features that are of type <em>char</em> are encoded as factors.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data$Family = as.factor(all_data$Family)</span><br></pre></td></tr></table></figure>
+<p>We also exclude features that will not provide benefit to the model.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">all_PassengerId &lt;- all_data %&gt;% select(PassengerId)</span><br><span class="line">all_data &lt;- all_data %&gt;% select(-PassengerId, -Name, -Ticket, -Fare, -Cabin)</span><br></pre></td></tr></table></figure>
+<p>Split the data back into a train set and a test set.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train_PassengerId &lt;- all_PassengerId[<span class="number">1</span>:<span class="number">891</span>,]</span><br><span class="line">test_PassengerId &lt;- all_PassengerId[<span class="number">892</span>:<span class="number">1309</span>,]</span><br><span class="line"></span><br><span class="line">train &lt;- all_data[<span class="number">1</span>:<span class="number">891</span>,]</span><br><span class="line">test &lt;- all_data[<span class="number">892</span>:<span class="number">1309</span>,]</span><br><span class="line">glimpse(train)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">## Observations: 891</span><br><span class="line">## Variables: 36</span><br><span class="line">## $ Survived                                 &lt;int&gt; 0, 1, 1, 1, 0, 0...</span><br><span class="line">## $ Pclass                                   &lt;int&gt; 3, 1, 3, 1, 3, 3...</span><br><span class="line">## $ Sex                                      &lt;fctr&gt; male, female, f...</span><br><span class="line">## $ Age                                      &lt;dbl&gt; 22.00, 38.00, 26...</span><br><span class="line">## $ SibSp                                    &lt;int&gt; 1, 1, 0, 1, 0, 0...</span><br><span class="line">## $ Parch                                    &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Embarked                                 &lt;fctr&gt; S, C, S, S, S, ...</span><br><span class="line">## $ FarePerPerson                            &lt;dbl&gt; 7.250, 35.642, 7...</span><br><span class="line">## $ Family                                   &lt;fctr&gt; Multiple, Multi...</span><br><span class="line">## $ Nationality.African.EastAfrican          &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.African.WestAfrican          &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.CelticEnglish                &lt;int&gt; 1, 1, 0, 1, 1, 1...</span><br><span class="line">## $ Nationality.EastAsian.Chinese            &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.EastAsian.Indochina.Vietnam  &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.EastAsian.Malay.Indonesia    &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.EastAsian.Malay.Malaysia     &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.EastAsian.South.Korea        &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.French              &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.German              &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.Italian.Italy       &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.Italian.Romania     &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.Russian             &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.European.SouthSlavs          &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Greek                        &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Hispanic.Philippines         &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Hispanic.Portuguese          &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Hispanic.Spanish             &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Muslim.Nubian                &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Muslim.Pakistanis.Bangladesh &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Muslim.Persian               &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Muslim.Turkic.Turkey         &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Nordic.Finland               &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Nordic.Scandinavian.Denmark  &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Nordic.Scandinavian.Norway   &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br><span class="line">## $ Nationality.Nordic.Scandinavian.Sweden   &lt;int&gt; 0, 0, 1, 0, 0, 0...</span><br><span class="line">## $ Nationality.SouthAsian                   &lt;int&gt; 0, 0, 0, 0, 0, 0...</span><br></pre></td></tr></table></figure>
+<h2 id="Model-comparison-and-accuracy"><a href="#Model-comparison-and-accuracy" class="headerlink" title="Model comparison and accuracy"></a>Model comparison and accuracy</h2><p>As a number of different methods will be examined it is important that we are able to asses accuracy and make comparisons between each of them. To validate our models and allow comparison we shall employ the cross-validation technique. This involves splitting our <em>train</em> data set into a new training set and a hold-out set. The new training set is used to train our model while the holdout set is used for testing. As we have the known predictor variable in our hold-out set we can assess the accuracy of each of our models against common data.</p>
+<p>I have chosen to perform a k-fold cross validation with 5 folds. The train data will be randomly separated into 5 subsets with 4 folds designated as <em>train</em> subset and the remaining fold as the <em>holdout</em> that acts as our <em>test</em> subset. The fold designated as the holdout will change in 5 rounds of fitting so we shall end with a <em>train</em> data set that also has a set of model predictions.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create Folds</span></span><br><span class="line">folds &lt;- createFolds(train$Survived, k=<span class="number">5</span>, list=<span class="literal">TRUE</span>, returnTrain=<span class="literal">FALSE</span>)</span><br><span class="line"><span class="comment"># Set up results table</span></span><br><span class="line">results &lt;- data.frame(PassengerId = train_PassengerId, Fold = <span class="literal">NA</span>, Survived = train$Survived)</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>)&#123;</span><br><span class="line">  foldIndex &lt;- folds[[i]]</span><br><span class="line">  results$Fold[foldIndex] &lt;- i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Tree-Analysis"><a href="#Tree-Analysis" class="headerlink" title="Tree Analysis"></a>Tree Analysis</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">results$Tmodel &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>)&#123;</span><br><span class="line">  indexes &lt;- folds[[i]]</span><br><span class="line">  holdoutData &lt;- train[indexes, ]</span><br><span class="line">  trainData &lt;- train[-indexes, ]</span><br><span class="line"></span><br><span class="line">  t_model &lt;- rpart(Survived ~ .,</span><br><span class="line">                  method = <span class="string">"class"</span>,</span><br><span class="line">                  data = trainData)</span><br><span class="line">  predict &lt;- predict(t_model, holdoutData, type=<span class="string">"class"</span>)</span><br><span class="line">  results$Tmodel[indexes] &lt;- as.vector(predict)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can now asses the accuracy of this model by employing a confusion matrix.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">confMat &lt;- table(results$Tmodel, results$Survived)</span><br><span class="line">sum(diag(confMat))/sum(confMat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.8103</span><br></pre></td></tr></table></figure>
+<p>Now lets also get an idea of which variables were useful predictors in the model. We can do this by training the model on the full <em>train</em> data set.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create model</span></span><br><span class="line">t_model &lt;- rpart(Survived ~ .,</span><br><span class="line">                  method = <span class="string">"class"</span>,</span><br><span class="line">                  data = train)</span><br><span class="line"><span class="comment"># Calculate variable importance</span></span><br><span class="line">importance &lt;- varImp(t_model)</span><br><span class="line">varImportance &lt;- data.frame(Variables = row.names(importance), Score = importance$Overall)</span><br><span class="line"><span class="comment"># Create a rank variable based on importance and filter out 0 score variables</span></span><br><span class="line">rankImportance &lt;- varImportance %&gt;% filter(Score &gt; <span class="number">0</span>) %&gt;%</span><br><span class="line">  mutate(Rank = paste0(<span class="string">'#'</span>,dense_rank(desc(Score))))</span><br><span class="line"><span class="comment"># Use ggplot2 to visualise the relative importance of variables</span></span><br><span class="line">fig.5.3.a &lt;- ggplot(rankImportance, aes(x = reorder(Variables, Score),</span><br><span class="line">    y = Score, fill = Score)) +</span><br><span class="line">  geom_bar(stat=<span class="string">'identity'</span>) +</span><br><span class="line">  theme(axis.line.y = element_line(colour = <span class="string">"black"</span>),</span><br><span class="line">        panel.grid.major = element_blank(),</span><br><span class="line">        panel.grid.minor = element_blank(),</span><br><span class="line">        panel.border = element_blank(),</span><br><span class="line">        panel.background = element_blank(),</span><br><span class="line">        legend.position=<span class="string">"none"</span>,</span><br><span class="line">        panel.grid.major.x = element_line(colour = <span class="string">"grey"</span>)) +</span><br><span class="line">  labs(x = <span class="string">"Variables"</span>, y = <span class="string">"Scores"</span>, title = <span class="string">"Fig 5.3.a: Tree model variable importance scores"</span>) +</span><br><span class="line">  coord_flip()</span><br><span class="line">print(fig.5.3.a)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-38-1.png" alt="plot of chunk unnamed-chunk-38"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Use rpart plot function to visualise the decision tree</span></span><br><span class="line">rpart.plot(t_model)</span><br></pre></td></tr></table></figure>
+<p><img src="/figure/posts/Predicting-Survival-on-the-Titanic/unnamed-chunk-38-2.png" alt="plot of chunk unnamed-chunk-38"></p>
+<p>Examining the importance score of the variables shown in <em>Fig 5.3.a</em> we see that <em>Sex</em>, <em>FarePerPerson</em>, <em>Pclass</em> are the highest scored variables in the model indicating that they are strong predictors of a passenger surviving. The <em>Age</em>, <em>SibSp</em>, <em>Family</em> and to a lesser extent <em>Parch</em> and <em>Embarked</em> have some impact on a passengers survival. We also see in the decision tree plot that the branches occur on the <em>Sex</em>, <em>FarePerPerson</em>, <em>Pclass</em>, <em>Age</em>, <em>Embarkment</em>, <em>SibSp</em> variables. All of our engineered variables feature with non zero scores, though only the <em>FarePerPerson</em> variable appears to have a high level of importance in our decision tree.</p>
+<p>With this information I could consider removing some of these variables to see if this will improve the model or performing further feature engineering, but my focus here is a comparison between different techniques.</p>
+<h2 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">results$LRmodel &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>)&#123;</span><br><span class="line">  indexes &lt;- folds[[i]]</span><br><span class="line">  holdoutData &lt;- train[indexes, ]</span><br><span class="line">  trainData &lt;- train[-indexes, ]</span><br><span class="line"></span><br><span class="line">  lr_model &lt;- glm(Survived ~ .,</span><br><span class="line">                  family = binomial(link=<span class="string">'logit'</span>),</span><br><span class="line">                  data = trainData)</span><br><span class="line">  predict &lt;- predict(lr_model, holdoutData, type=<span class="string">"response"</span>)</span><br><span class="line">  results$LRmodel[indexes] &lt;- as.vector(ifelse(predict &gt; <span class="number">0.5</span>,<span class="number">1</span>,<span class="number">0</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The accuracy of the model is calculated as;</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">confMat &lt;- table(results$LRmodel, results$Survived)</span><br><span class="line">sum(diag(confMat))/sum(confMat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.7935</span><br></pre></td></tr></table></figure>
+<h2 id="Random-Forest-Analysis"><a href="#Random-Forest-Analysis" class="headerlink" title="Random Forest Analysis"></a>Random Forest Analysis</h2><p>Apply the Random Forest Algorithm</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">1</span>)</span><br><span class="line">results$RFmodel &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>)&#123;</span><br><span class="line">  indexes &lt;- folds[[i]]</span><br><span class="line">  holdoutData &lt;- train[indexes, ]</span><br><span class="line">  trainData &lt;- train[-indexes, ]</span><br><span class="line"></span><br><span class="line">  rf_model &lt;- randomForest(Survived ~ .,</span><br><span class="line">                  method = <span class="string">"class"</span>,</span><br><span class="line">                  data = trainData)</span><br><span class="line">  predict &lt;- predict(rf_model, holdoutData, type=<span class="string">"response"</span>)</span><br><span class="line">  results$RFmodel[indexes] &lt;- as.vector(ifelse(predict &gt; <span class="number">0.5</span>,<span class="number">1</span>,<span class="number">0</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The accuracy of the model is calculated as;</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">confMat &lt;- table(results$RFmodel, results$Survived)</span><br><span class="line">sum(diag(confMat))/sum(confMat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.8159</span><br></pre></td></tr></table></figure>
+<h2 id="Suport-vector-machine"><a href="#Suport-vector-machine" class="headerlink" title="Suport vector machine"></a>Suport vector machine</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">names(train) &lt;- make.names(names(train))</span><br><span class="line">results$SVMmodel &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>)&#123;</span><br><span class="line">  indexes &lt;- folds[[i]]</span><br><span class="line">  holdoutData &lt;- train[indexes, ]</span><br><span class="line">  trainData &lt;- train[-indexes, ]</span><br><span class="line">  svm_model &lt;- svm(Survived ~ .,</span><br><span class="line">                  data = trainData,</span><br><span class="line">                  cost = <span class="number">100</span>,</span><br><span class="line">                  gamma = <span class="number">1</span>)</span><br><span class="line">  predict &lt;- predict(svm_model, holdoutData)</span><br><span class="line">  results$SVMmodel[indexes] &lt;- as.vector(ifelse(predict &gt; <span class="number">0.5</span>,<span class="number">1</span>,<span class="number">0</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The accuracy of the model is calculated as;</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">confMat &lt;- table(results$SVMmodel, results$Survived)</span><br><span class="line">sum(diag(confMat))/sum(confMat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.6734</span><br></pre></td></tr></table></figure>
+<h2 id="Model-Prediction"><a href="#Model-Prediction" class="headerlink" title="Model Prediction"></a>Model Prediction</h2><p>In our comparison of various techniques in the previous section, we determined that the <em>Tree</em> and <em>RandomForest</em> models provided the highest prediction accuracy. Lets select the <em>RandomForest</em> model and re-train on the entire <em>train</em> set and make the predictions on the <em>test</em> set. We shall then submit to Kaggle.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rf_model &lt;- randomForest(Survived ~ .,</span><br><span class="line">                  method = <span class="string">"class"</span>,</span><br><span class="line">                  data = train)</span><br><span class="line">prediction &lt;- predict(rf_model, test, type=<span class="string">"response"</span>)</span><br><span class="line">prediction &lt;- as.vector(ifelse(prediction &gt; <span class="number">0.5</span>,<span class="number">1</span>,<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<p>Create a data frame with two columns: <em>PassengerId</em> &amp; <em>Survived.</em> so that <em>Survived</em> contains your predictions.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solution &lt;- data.frame(PassengerId = test_PassengerId, Survived = prediction)</span><br></pre></td></tr></table></figure>
+<p>Write your solution away to a csv file with the name solution.csv</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">write.csv(solution, file = <span class="string">"solution.csv"</span>, row.names = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>After submitting the results for the <em>Random Forest model</em> to Kaggle we obtained a score of 0.77. There are several approaches we could consider to improve our model;</p>
+<ul>
+<li>Employ ensemble learning and utilise the predictions from our different models. I shall discuss this in a subsequent blog.</li>
+<li>Remove features with little predictive value or remove those variable pairings that have a high degree of multicolliniarity. Such approaches must however be considered on a per technique basis.</li>
+<li>Try different methods such K-nearest neighbour, XGBoost, LGBoost to name a few.</li>
+<li>Tune the fitting parameters. While I did do some minor tuning to ensure models were not hopelessly poor, much more could be done.</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/28/Why-I-m-here/" data-tooltip="Why I&#39;m here?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Warren Elder. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/28/Why-I-m-here/" data-tooltip="Why I&#39;m here?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Warren Elder</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Auckland, New Zealand
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="/2017/11/25/hello-world/">
+                            <h3 class="media-heading">Hello World</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Nov 25, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a class="link-unstyled" href="/2017/11/28/Why-I-m-here/">
+                            <img class="media-image" src="http://warrenelder.github.io./2017/11/28/Why-I-m-here/sky-high-hopes.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="/2017/11/28/Why-I-m-here/">
+                            <h3 class="media-heading">Why I&#39;m here?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Nov 28, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Welcome.</p>
+<p>This is my first post and I thought I should start by addressing the question, “Why am I here”? Well to answer this, I should probably also ask the question, “Who am I, who is asking this question?”. Thinking about it further, I could maybe then ask, “who do I want to answer these questions?”…<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="/2017/12/05/Predicting-Survival-on-the-Titanic/">
+                            <h3 class="media-heading">Predicting Survival on the Titanic</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 5, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>I recently created, and shared my first Kernal on Kaggle and thought I should add it here too. I wrote it in RMarkdown and found a very handy tutorial at <a href="https://bookdown.org/yihui/blogdown/hexo.html" target="_blank" rel="noopener">https://bookdown.org/yihui/blogdown/hexo.html</a> on how to compile it directly into my Hexo blog. So enjoy…<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                3 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-mountain.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-bfii4vi7kedkv866xkp6jrv40u9x9kj4foqclkqcpywp8dk37i2pq0mzeden.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('JG6E2Q9B2Y', '5acb06efd79378653af8b8b435f0fbea');
+        var algoliaIndex = algoliaClient.initIndex('high-hopes-hexo-blog');
+    </script>
+
+    </body>
+</html>
