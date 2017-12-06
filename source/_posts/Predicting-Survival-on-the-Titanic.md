@@ -28,7 +28,7 @@ meta: false
 actions: false
 ---
 
-A common introduction to Kaggle competitions is to analyse the Titanic dataset to understand why certain people aboard perished, and others did not. I recently shared my attempt on {% link Kaggle https://www.kaggle.com/warrenelder/titanic-survival-prediction [external] [title] %}, but you can read my Rmarkdown report here too.
+A common introduction to Kaggle competitions is to analyse the Titanic dataset to understand why certain people aboard perished, and others did not. I recently shared my attempt on {% link Kaggle https://www.kaggle.com/warrenelder/titanic-survival-prediction [https://www.kaggle.com/warrenelder/titanic-survival-prediction] [Titanic: Survival Prediction] %}, but you can read my Rmarkdown report here too.
 <!-- more -->
 
 
@@ -46,24 +46,13 @@ The [data](https://www.kaggle.com/c/titanic/data) comes in the form of one train
 
 Additional data has been created on passengers nationality, and is detailed in section 4.5.
 
-# Preparations {.tabset .tabset-fade .tabset-pills}
+# Preparations
 
 ## Load libraries
 
 We load a range of libraries for general data wrangling and general visualisation together with more specialised tools.
 
 
-```
-## Warning: package 'dplyr' was built under R version 3.4.2
-```
-
-```
-## Warning: package 'data.table' was built under R version 3.4.2
-```
-
-```
-## Warning: package 'tidyr' was built under R version 3.4.2
-```
 
 ## Load data
 
@@ -75,7 +64,7 @@ train <- as.tibble(fread('train.csv'))
 test <- as.tibble(fread('test.csv'))
 ```
 
-# File structure and data overview {.tabset .tabset-fade .tabset-pills}
+# File structure and data overview
 
 As a first step let's have an overview of the data sets using the *summary* and *glimpse* tools.
 
@@ -894,7 +883,7 @@ sum(diag(confMat))/sum(confMat)
 ```
 
 ```
-## [1] 0.8182
+## [1] 0.8204
 ```
 
 Now lets also get an idea of which variables were useful predictors in the model. We can do this by training the model on the full *train* data set.
@@ -967,7 +956,7 @@ sum(diag(confMat))/sum(confMat)
 ```
 
 ```
-## [1] 0.7946
+## [1] 0.7845
 ```
 
 ## Random Forest Analysis
@@ -1000,7 +989,7 @@ sum(diag(confMat))/sum(confMat)
 ```
 
 ```
-## [1] 0.8204
+## [1] 0.8159
 ```
 
 ## Suport vector machine
@@ -1031,7 +1020,7 @@ sum(diag(confMat))/sum(confMat)
 ```
 
 ```
-## [1] 0.6756
+## [1] 0.6566
 ```
 
 ## Model Prediction
