@@ -107,7 +107,7 @@ summary(train)
 ##                    
 ##                    
 ##                    
-## 
+##
 ```
 
 
@@ -204,11 +204,11 @@ colSums(is.na(train))
 ```
 
 ```
-## PassengerId    Survived      Pclass        Name         Sex 
-##           0           0           0           0           0 
-##         Age       SibSp       Parch      Ticket        Fare 
-##         177           0           0           0           0 
-##       Cabin    Embarked 
+## PassengerId    Survived      Pclass        Name         Sex
+##           0           0           0           0           0
+##         Age       SibSp       Parch      Ticket        Fare
+##         177           0           0           0           0
+##       Cabin    Embarked
 ##           0           0
 ```
 
@@ -217,11 +217,11 @@ colSums(is.na(test))
 ```
 
 ```
-## PassengerId      Pclass        Name         Sex         Age 
-##           0           0           0           0          86 
-##       SibSp       Parch      Ticket        Fare       Cabin 
-##           0           0           0           1           0 
-##    Embarked 
+## PassengerId      Pclass        Name         Sex         Age
+##           0           0           0           0          86
+##       SibSp       Parch      Ticket        Fare       Cabin
+##           0           0           0           1           0
+##    Embarked
 ##           0
 ```
 
@@ -237,8 +237,8 @@ prop.table(table(train$Survived))
 ```
 
 ```
-## 
-##      0      1 
+##
+##      0      1
 ## 0.6162 0.3838
 ```
 
@@ -369,16 +369,16 @@ cor.test(trainInvestigate$Pclass, trainInvestigate$Fare, method = "pearson", use
 ```
 
 ```
-## 
+##
 ## 	Pearson's product-moment correlation
-## 
+##
 ## data:  trainInvestigate$Pclass and trainInvestigate$Fare
 ## t = -20, df = 890, p-value <2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.5937 -0.5019
 ## sample estimates:
-##     cor 
+##     cor
 ## -0.5495
 ```
 
@@ -388,16 +388,16 @@ cor.test(trainInvestigate$Pclass, trainInvestigate$FarePerPerson, method = "pear
 ```
 
 ```
-## 
+##
 ## 	Pearson's product-moment correlation
-## 
+##
 ## data:  trainInvestigate$Pclass and trainInvestigate$FarePerPerson
 ## t = -35, df = 890, p-value <2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.7888 -0.7337
 ## sample estimates:
-##     cor 
+##     cor
 ## -0.7627
 ```
 
@@ -697,7 +697,7 @@ sort(table(all_data$Embarked),decreasing=TRUE)[1]
 ```
 
 ```
-##   S 
+##   S
 ## 914
 ```
 
