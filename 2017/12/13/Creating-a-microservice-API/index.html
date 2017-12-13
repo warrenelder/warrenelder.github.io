@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="High Hopes">
+    <title>Build a micro-service in NodeJS to connect to a third-party api - High Hopes</title>
+    <meta name="author" content="Warren Elder">
+    
+    
+    
+    <meta name="description" content="As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests dire">
+<meta name="keywords" content="NodeJs,Microservice,Loopback,Javascript">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Build a micro-service in NodeJS to connect to a third-party api">
+<meta property="og:url" content="http://warrenelder.github.io./2017/12/13/Creating-a-microservice-API/index.html">
+<meta property="og:site_name" content="High Hopes">
+<meta property="og:description" content="As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests directly to the API’s end-points, I have dec">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-12-13T21:12:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Build a micro-service in NodeJS to connect to a third-party api">
+<meta name="twitter:description" content="As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests directly to the API’s end-points, I have dec">
+    
+    
+        
+    
+    
+    
+    
+        <meta property="og:image" content="http://warrenelder.github.io./2017/12/13/Creating-a-microservice-API/api.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://warrenelder.github.io./2017/12/13/Creating-a-microservice-API/api.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-mczssdwv3t8dqawxnizeahfxpbafnkmxhnfjd4lj5zivtsudatr8kz6g8tqk.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-110802934-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">High Hopes</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about-me"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/warrenelder" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/warrenelder/" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:warrenelder84@gmail.com" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--partial"
+             style="background-image:url('/2017/12/13/Creating-a-microservice-API/api.jpg');"
+             data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Build a micro-service in NodeJS to connect to a third-party api
+        </h1>
+    
+    
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests directly to the API’s end-points, I have decided to employ an alternative approach.<br><a id="more"></a><br>I have decided to build a server side API to act as a proxy between the application and third-party API. In practice this means that the phone application makes requests to the proxy API endpoints which in turn makes a request to the third-party API. The response is then sent back through the proxy API and on to the phone application. You may be thinking that this is a needlessly complicated, or unnecessary engineering, but there are several good reasons to utilise this architecture;</p>
+<ul>
+<li>We avoid storing any API keys or sensitive information within the distributed phone application source code. Sensitive information can be stored server side, hidden within the NodeJS code.</li>
+<li>Performance can be improved by adding a cache layer in the proxy API, reducing the total number requests to the third-party API.</li>
+<li>The data provided by the third-party API may not be formatted as required. The proxy can do the heavy lifting, preparing the data to avoid client side processing in the phone application.</li>
+<li>If the endpoints of the third-party API change in a way that breaks the phone application we need only make updates to the server side proxy API. This avoids us having to make a costly app version update across all distributed platforms.</li>
+<li>Creating a proxy API can actually be achieved very quickly.</li>
+</ul>
+<p>While this list is by no means exhaustive, it should demonstrate why such an approach can be of use. In the rest of this post I shall describe how I built the proxy API in NodeJS and demonstrate how you can get a microservice up and running in minutes.</p>
+<p>I used the <a href="https://loopback.io/" title="[https://loopback.io/] [Loopback framework]" target="_blank" rel="noopener">Loopback</a> framework as the starting point because it has a very helpful CLI that allows you to define the high level utility of your server in minutes, and it has a very useful package that does much of the scaffolding to make the connection with the third-party api.</p>
+<p>From here I assume you already have NodeJS installed. We first get the server up and running.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// Install the LoopBack CLI tool</span><br><span class="line">$ npm install -g loopback-cli</span><br><span class="line">// Initialise project</span><br><span class="line">$ lb</span><br><span class="line">// Answer the following prompts;</span><br><span class="line">// ? What&apos;s the name of your application?</span><br><span class="line">proxy-api</span><br><span class="line">// ? Enter name of the directory to contain the project:</span><br><span class="line">proxy-api</span><br><span class="line">// ? Which version of LoopBack would you like to use?</span><br><span class="line">3.x (current)</span><br><span class="line">// ? What kind of application do you have in mind?</span><br><span class="line">api-server (A LoopBack API server with local User auth)</span><br></pre></td></tr></table></figure></p>
+<p>Now that is done, we define the REST connector that forms the connection with the third-party API.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// Change directory to app</span><br><span class="line">$ cd proxy-api</span><br><span class="line">// Install REST connector</span><br><span class="line">$ npm install --save loopback-connector-rest</span><br><span class="line">// Set up connector</span><br><span class="line">$ lb datasource</span><br><span class="line">// Answer the following prompts;</span><br><span class="line">// ? Enter the datasource name:</span><br><span class="line">third-party-api</span><br><span class="line">// ? Select the connector for third-party-api:</span><br><span class="line">REST services (supported by StrongLoop)</span><br><span class="line">// ? Base URL for the REST service:</span><br><span class="line">https://api.postcodes.io</span><br><span class="line">// ? Default options for the request:</span><br><span class="line">// ? An array of operation templates:</span><br><span class="line">// ? Use default CRUD mapping:</span><br><span class="line">No</span><br></pre></td></tr></table></figure></p>
+<p>In the set-up above, I have chosen an open API providing information on UK postcodes to act as the third-party API. The next step in providing a bare-bones, working example of the proxy API is to define an endpoint to make a request to. For simplicity, we shall make a GET request to the proxy API to return data on a single postcode. For this step we must make some small changes to some code. So head to <em>/server/datasource.json</em> where you should see,<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"db"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"db"</span>,</span><br><span class="line">    <span class="attr">"connector"</span>: <span class="string">"memory"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"third-party-api"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"third-party-api"</span>,</span><br><span class="line">    <span class="attr">"baseURL"</span>: <span class="string">"https://api.postcodes.io"</span>,</span><br><span class="line">    <span class="attr">"crud"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"connector"</span>: <span class="string">"rest"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>and change to,<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"db"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"db"</span>,</span><br><span class="line">    <span class="attr">"connector"</span>: <span class="string">"memory"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"third-party-api"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"third-party-api"</span>,</span><br><span class="line">    <span class="attr">"baseURL"</span>: <span class="string">"https://api.postcodes.io"</span>,</span><br><span class="line">    <span class="attr">"crud"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"connector"</span>: <span class="string">"rest"</span>,</span><br><span class="line">    <span class="attr">"operations"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"functions"</span>: &#123;</span><br><span class="line">          <span class="attr">"getpostcodes"</span>: [</span><br><span class="line">            <span class="string">"postcode"</span></span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"template"</span>: &#123;</span><br><span class="line">          <span class="attr">"method"</span>: <span class="string">"GET"</span>,</span><br><span class="line">          <span class="attr">"url"</span>: <span class="string">"https://api.postcodes.io/postcodes/&#123;postcode&#125;"</span>,</span><br><span class="line">          <span class="attr">"headers"</span>: &#123;</span><br><span class="line">            <span class="attr">"accepts"</span>: <span class="string">"application/json"</span>,</span><br><span class="line">            <span class="attr">"content-type"</span>: <span class="string">"application/json"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This code defines a set of operations for digesting or mapping requests to the third-party API. We must define our named <em>functions</em> which provides a url at the proxy API where we make our request to. Meta information, such as the http <em>method</em> is stored in the <em>template</em>. The final step is to add a <em>model</em> which collects the data from the REST connector.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// Create model</span><br><span class="line">$ lb model</span><br><span class="line">// ? Enter the model name:</span><br><span class="line">postcode</span><br><span class="line">// ? Select the datasource to attach postcode to:</span><br><span class="line">third-party-api (rest)</span><br><span class="line">// ? Select model&apos;s base class</span><br><span class="line">Model</span><br><span class="line">// ? Expose postcode via the REST API?</span><br><span class="line">Yes</span><br><span class="line">// ? Custom plural form (used to build REST URL):</span><br><span class="line">// ? Common model or server only?</span><br><span class="line">common</span><br><span class="line">// Let&apos;s add some postcode properties now.</span><br><span class="line">// Enter an empty property name when done.</span><br><span class="line">// ? Property name:</span><br></pre></td></tr></table></figure><br>Now we can start our server,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node .</span><br></pre></td></tr></table></figure><br>Lets view our proxy API endpoints at <em><a href="http://localhost:3000/explorer" target="_blank" rel="noopener">http://localhost:3000/explorer</a></em>. This page also provides a useful interface listing all available endpoints and allows us to make test requests. Trying it out with the postcode <em>SW1A0AA</em> we get the following response.<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"status"</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">"result"</span>: &#123;</span><br><span class="line">    <span class="attr">"postcode"</span>: <span class="string">"SW1A 0AA"</span>,</span><br><span class="line">    <span class="attr">"quality"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"eastings"</span>: <span class="number">530268</span>,</span><br><span class="line">    <span class="attr">"northings"</span>: <span class="number">179545</span>,</span><br><span class="line">    <span class="attr">"country"</span>: <span class="string">"England"</span>,</span><br><span class="line">    <span class="attr">"nhs_ha"</span>: <span class="string">"London"</span>,</span><br><span class="line">    <span class="attr">"longitude"</span>: <span class="number">-0.12466272904588</span>,</span><br><span class="line">    <span class="attr">"latitude"</span>: <span class="number">51.4998404539774</span>,</span><br><span class="line">    <span class="attr">"european_electoral_region"</span>: <span class="string">"London"</span>,</span><br><span class="line">    <span class="attr">"primary_care_trust"</span>: <span class="string">"Westminster"</span>,</span><br><span class="line">    <span class="attr">"region"</span>: <span class="string">"London"</span>,</span><br><span class="line">    <span class="attr">"lsoa"</span>: <span class="string">"Westminster 020C"</span>,</span><br><span class="line">    <span class="attr">"msoa"</span>: <span class="string">"Westminster 020"</span>,</span><br><span class="line">    <span class="attr">"incode"</span>: <span class="string">"0AA"</span>,</span><br><span class="line">    <span class="attr">"outcode"</span>: <span class="string">"SW1A"</span>,</span><br><span class="line">    <span class="attr">"parliamentary_constituency"</span>: <span class="string">"Cities of London and Westminster"</span>,</span><br><span class="line">    <span class="attr">"admin_district"</span>: <span class="string">"Westminster"</span>,</span><br><span class="line">    <span class="attr">"parish"</span>: <span class="string">"Westminster, unparished area"</span>,</span><br><span class="line">    <span class="attr">"admin_county"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="attr">"admin_ward"</span>: <span class="string">"St James's"</span>,</span><br><span class="line">    <span class="attr">"ccg"</span>: <span class="string">"NHS Central London (Westminster)"</span>,</span><br><span class="line">    <span class="attr">"nuts"</span>: <span class="string">"Westminster"</span>,</span><br><span class="line">    <span class="attr">"codes"</span>: &#123;</span><br><span class="line">      <span class="attr">"admin_district"</span>: <span class="string">"E09000033"</span>,</span><br><span class="line">      <span class="attr">"admin_county"</span>: <span class="string">"E99999999"</span>,</span><br><span class="line">      <span class="attr">"admin_ward"</span>: <span class="string">"E05000644"</span>,</span><br><span class="line">      <span class="attr">"parish"</span>: <span class="string">"E43000236"</span>,</span><br><span class="line">      <span class="attr">"parliamentary_constituency"</span>: <span class="string">"E14000639"</span>,</span><br><span class="line">      <span class="attr">"ccg"</span>: <span class="string">"E38000031"</span>,</span><br><span class="line">      <span class="attr">"nuts"</span>: <span class="string">"UKI32"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>To confirm this response at the third-party API just visit <a href="http://api.postcodes.io/postcodes/SW1A0AA" target="_blank" rel="noopener">http://api.postcodes.io/postcodes/SW1A0AA</a>.</p>
+<p>And that is it, we have a microservice up and running in minutes. Further upgrades can be made to cache requests and add authorisation keys if required. You can also get the full code at <a href="https://github.com/warrenelder/proxy-api" target="_blank" rel="noopener">https://github.com/warrenelder/proxy-api</a>.</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Javascript/">Javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/Loopback/">Loopback</a> <a class="tag tag--primary tag--small t-link" href="/tags/Microservice/">Microservice</a> <a class="tag tag--primary tag--small t-link" href="/tags/NodeJs/">NodeJs</a>
+
+            </div>
+        
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Warren Elder. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Warren Elder</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/11/28/Why-I-m-here/">
+                            <h3 class="media-heading">Why I&#39;m here?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Nov 28, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Welcome.</p>
+<p>This is my first post and I thought I should start by addressing the question, “Why am I here”? Well to answer this, I should probably also ask the question, “Who am I, who is asking this question?”. Thinking about it further, I could maybe then ask, “who do I want to answer these questions?”…<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/12/06/Predicting-Survival-on-the-Titanic/">
+                            <h3 class="media-heading">Predicting Survival on the Titanic</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 6, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>A common introduction to Kaggle competitions is to analyse the Titanic dataset to understand why certain people aboard perished, and others did not. I recently shared my attempt on <a href="https://www.kaggle.com/warrenelder/titanic-survival-prediction" title="[https://www.kaggle.com/warrenelder/titanic-survival-prediction] [Titanic: Survival Prediction]" target="_blank" rel="noopener">Kaggle</a>, but you can read my Rmarkdown report here too.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/12/13/Creating-a-microservice-API/">
+                            <h3 class="media-heading">Build a micro-service in NodeJS to connect to a third-party api</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 13, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests directly to the API’s end-points, I have decided to employ an alternative approach.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                3 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-wyxazn5dhhtavh7wyhtmrwgufkdsnumjnq8r9bqjaowyrsy7pnjp1palkatf.min.js"></script>
+<!--SCRIPTS END-->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('JG6E2Q9B2Y', '5acb06efd79378653af8b8b435f0fbea');
+        var algoliaIndex = algoliaClient.initIndex('high-hopes-hexo-blog');
+    </script>
+
+    </body>
+</html>
