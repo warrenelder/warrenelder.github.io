@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="High Hopes">
+    <title>Data cleaning in Python - High Hopes</title>
+    <meta name="author" content="Warren Elder">
+    
+    
+    
+    <meta name="description" content="In this post I investigate some of the processes involved in cleaning dirty data.">
+<meta name="keywords" content="Data Cleaning,Python,Bloomberg,Investment">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Data cleaning in Python">
+<meta property="og:url" content="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/index.html">
+<meta property="og:site_name" content="High Hopes">
+<meta property="og:description" content="In this post I investigate some of the processes involved in cleaning dirty data.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/BB_data_snapshot.png">
+<meta property="og:updated_time" content="2018-01-24T00:44:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Data cleaning in Python">
+<meta name="twitter:description" content="In this post I investigate some of the processes involved in cleaning dirty data.">
+<meta name="twitter:image" content="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/BB_data_snapshot.png">
+    
+    
+        
+    
+    
+    
+    
+        <meta property="og:image" content="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/cleaning.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/cleaning.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nher83f3fhxexo1bjtdb2awumhywcbp12rbgboi9xxrby8rfhneque15bmrf.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-110802934-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">High Hopes</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about-me"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/warrenelder" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/warrenelder/" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:warrenelder84@gmail.com" target="_blank" rel="noopener">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-top
+                    post-header-cover--partial"
+             style="background-image:url('/2018/01/15/Data-cleaning-in-Python/cleaning.jpg');"
+             data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-top">
+    
+        <h1 class="post-title" itemprop="headline">
+            Data cleaning in Python
+        </h1>
+    
+    
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>In this post I investigate some of the processes involved in cleaning dirty data.<br><a id="more"></a><br>In most data science projects you can expect the majority of time to be spent collecting and pre-processing a dataset before performing an analysis. During the collection and pre-processing phase, one can undertake a myriad of tasks to get a dataset into a usable format. These tasks include, but are not limited to; outlier checking, date parsing, missing value imputation, malformed or erroneous data management, normalising data types, and data structuring. In this post I wanted to discuss the process of data <em>tidying</em> and what we should expect the resulting output of <em>tidy</em> data to look like.</p>
+<p>Data tidying is often one of the first steps in achieving the goal of <em>clean</em> data. Tidy data can be defined by three criteria discussed by <em>H Wickham</em> in <em>Tidy Data,</em> from the <em>Journal of Statistical Software, Vol59</em>;</p>
+<ol>
+<li>Each variable forms a column.</li>
+<li>Each observation forms a row.</li>
+<li>Each type of observational unit forms a table.</li>
+</ol>
+<p>To elucidate these points further I shall now consider tidying some messy financial data from Bloomberg that I have extracted from an Excel file. A snapshot of this data is shown below.<br><img src="/2018/01/15/Data-cleaning-in-Python/BB_data_snapshot.png" title="Snapshot of Bloomberg sample data"><br>In its original format we can identify a number of areas that require some tidying before we have met the criteria specified above. These are;</p>
+<ul>
+<li>Column headers are values, not variable names.</li>
+<li>Multiple variables are stored in one column.</li>
+<li>Variables are stored in both rows and columns.</li>
+<li>Multiple types of observational units are stored in the same table.</li>
+<li>A single observational unit is stored in multiple tables.</li>
+</ul>
+<p>In general we can see that this dataset has been arranged in a landscape report format, and financial variables have been grouped together for each company. In addition, we find that values for these financial variables are indexed by <em>Date</em> in a row which is only displayed for the first company (<em>aapl</em>) group.</p>
+<p>To rectify these issues I shall utilise the <em>NumPy</em> and <em>Pandas</em> libraries in Python, which are excellent tools with which to tidy data. The python file and Bloomberg data can be accessed directly from GitHub at <em><a href="https://github.com/warrenelder/data-science-projects" target="_blank" rel="noopener">https://github.com/warrenelder/data-science-projects</a></em></p>
+<p>After reading the Excel file into a data frame I perform the following steps;</p>
+<p>Step 1: Observations should be in rows and variables should be in columns.<br>The most complicated form of messy data occurs when variables are stored in both rows and columns, but in our case we can take a big step forward by performing a transpose of the data and then picking out data fragments.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_transpose = data.T</span><br></pre></td></tr></table></figure></p>
+<p>Step 2: Convert to numpy object, as columns are not defined.<br>This simplifies the process of picking out specific company data sets using array indexing notation.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ds = data_transpose.values</span><br></pre></td></tr></table></figure></p>
+<p>Step 3: Extract variables and observations from different companies.<br>We observe that the data is grouped together by each company resulting in a single data type, namely the <em>Company</em> variable, being found in multiple table groupings.</p>
+<p>Step 3.1: Select column variables and convert into a list to allow addition of <em>Date</em> and <em>Company</em> variables.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">variables = ds[1,1:8].tolist()</span><br><span class="line">variables.extend([&quot;DATE&quot;, &quot;COMPANY&quot;])</span><br></pre></td></tr></table></figure></p>
+<p>Step 3.2: Extract <em>Date</em> variable data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dates = ds[2:,0]</span><br></pre></td></tr></table></figure></p>
+<p>Step 3.3: Extract data values for each company grouping<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">g1_label = ds[1,0]</span><br><span class="line">g1_data = ds[2:,1:8]</span><br><span class="line"></span><br><span class="line">g2_label = ds[1,9]</span><br><span class="line">g2_data = ds[2:,10:17]</span><br><span class="line"></span><br><span class="line">g3_label = ds[1,18]</span><br><span class="line">g3_data = ds[2:,19:26]</span><br><span class="line"></span><br><span class="line">g4_label = ds[1,27]</span><br><span class="line">g4_data = ds[2:,28:35]</span><br><span class="line"></span><br><span class="line">g5_label = ds[1,36]</span><br><span class="line">g5_data = ds[2:,37:44]</span><br></pre></td></tr></table></figure></p>
+<p>Step 4: Construct data sets for each company.<br>Define helper functions which add date and company data to each data group, and convert groups to data frames.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def preprocess_data_group(data, dates, company):</span><br><span class="line">    N = data.shape[0]</span><br><span class="line">    return np.c_[data, dates, np.repeat(company, N)]</span><br><span class="line"></span><br><span class="line">def create_dataframe_from_data_group(data, variables):</span><br><span class="line">    return pd.DataFrame(data=data, index=None, columns=[variables], dtype=None, copy=False)</span><br></pre></td></tr></table></figure></p>
+<p>Step 4.1: Create data frames for each company group.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">g1_data = preprocess_data_group(g1_data, dates, g1_label)</span><br><span class="line">df_g1 = create_dataframe_from_data_group(g1_data, variables)</span><br><span class="line"></span><br><span class="line">g2_data = preprocess_data_group(g2_data, dates, g2_label)</span><br><span class="line">df_g2 = create_dataframe_from_data_group(g2_data, variables)</span><br><span class="line"></span><br><span class="line">g3_data = preprocess_data_group(g3_data, dates, g3_label)</span><br><span class="line">df_g3 = create_dataframe_from_data_group(g3_data, variables)</span><br><span class="line"></span><br><span class="line">g4_data = preprocess_data_group(g4_data, dates, g4_label)</span><br><span class="line">df_g4 = create_dataframe_from_data_group(g4_data, variables)</span><br><span class="line"></span><br><span class="line">g5_data = preprocess_data_group(g5_data, dates, g5_label)</span><br><span class="line">df_g5 = create_dataframe_from_data_group(g5_data, variables)</span><br></pre></td></tr></table></figure></p>
+<p>Step 4.2: Concatenate company group data frames into a single dataset.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = pd.concat([df_g1, df_g2, df_g3, df_g4, df_g5]).reset_index(drop=True)</span><br></pre></td></tr></table></figure></p>
+<p>Step 5: Define variable types.<br>While this step is not strictly required to tidy the data, I like to specify the types of each variable in the dataset.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vars_float = [&quot;PX_LAST&quot;, &quot;CURR_ENTP_VAL&quot;, &quot;TRAIL_12M_EBITDA&quot;, &quot;EBITDA_MARGIN&quot;, &quot;PE_RATIO&quot;, &quot;LT_DEBT_TO_COM_EQY&quot;, &quot;DIVIDEND_YIELD&quot;]</span><br><span class="line">vars_date = [&quot;DATE&quot;]</span><br><span class="line">vars_cat = [&quot;COMPANY&quot;]</span><br><span class="line"></span><br><span class="line">df[vars_float] = df[vars_float].apply(pd.to_numeric, errors=&apos;ignore&apos;)</span><br><span class="line">df[vars_date] = df[vars_date].apply(pd.to_datetime)</span><br><span class="line">df[vars_cat] = df[vars_cat].apply(lambda x: x.astype(&apos;category&apos;))</span><br></pre></td></tr></table></figure></p>
+<p>Step 6: Separate multiple observations types into distinct tables.<br>Datasets often involve values collected at multiple levels, on different types of observational units. After examining the variables we observe a number of repeated values in <em>LT_DEBT_TO_COM_EQY</em>, <em>TRAIL_12M_EBITDA</em> and <em>EBITDA_MARGIN</em>, indicating that these variables are observed over different time intervals. We must therefore separate these data type into their own tables<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_a = df.filter([&quot;DATE&quot;, &quot;COMPANY&quot;, &quot;PX_LAST&quot;, &quot;CURR_ENTP_VAL&quot;, &quot;PE_RATIO&quot;, &quot;DIVIDEND_YIELD&quot;])</span><br><span class="line">df_b = df.filter([&quot;DATE&quot;, &quot;COMPANY&quot;, &quot;LT_DEBT_TO_COM_EQY&quot;])</span><br><span class="line">df_c = df.filter([&quot;DATE&quot;, &quot;COMPANY&quot;, &quot;TRAIL_12M_EBITDA&quot;, &quot;EBITDA_MARGIN&quot;])</span><br></pre></td></tr></table></figure></p>
+<p>Step 7: Save cleaned data to csv.<br>Finally output the data to a csv file to store for further pre-processing or analysis.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_a.to_csv(&quot;cleaned_data_a.csv&quot;, encoding=&quot;utf-8&quot;)</span><br><span class="line">df_b.to_csv(&quot;cleaned_data_b.csv&quot;, encoding=&quot;utf-8&quot;)</span><br><span class="line">df_c.to_csv(&quot;cleaned_data_c.csv&quot;, encoding=&quot;utf-8&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>The end result is three data tables,</p>
+<ul>
+<li><em>df_a</em> containing variables “DATE”, “COMPANY”, “PX_LAST”, “CURR_ENTP_VAL”, “PE_RATIO”, “DIVIDEND_YIELD”</li>
+<li><em>df_b</em> containing variables “DATE”, “COMPANY”, “LT_DEBT_TO_COM_EQY”</li>
+<li><em>df_c</em> containing variables “DATE”, “COMPANY”, “TRAIL_12M_EBITDA”, “EBITDA_MARGIN”</li>
+</ul>
+<p>Now lets see an example of a tidy dataset. A shortened version for the <em>df_a</em> table is shown below containing the first 11 rows;</p>
+<table><thead><tr><th class="ID-cell">ID</th><th class="DATE-cell">DATE</th><th class="COMPANY-cell">COMPANY</th><th class="PX_LAST-cell">PX_LAST</th><th class="CURR_ENTP_VAL-cell">CURR_ENTP_VAL</th><th class="PE_RATIO-cell">PE_RATIO</th><th class="DIVIDEND_YIELD-cell">DIVIDEND_YIELD</th></tr></thead><tbody><tr class="firstRow"><td class="ID-cell">0</td><td class="DATE-cell">2013-05-22</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">441.354</td><td class="CURR_ENTP_VAL-cell">269589.5</td><td class="PE_RATIO-cell">10.536</td><td class="DIVIDEND_YIELD-cell">0.018012999999999998</td></tr><tr><td class="ID-cell">1</td><td class="DATE-cell">2013-05-21</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">439.66</td><td class="CURR_ENTP_VAL-cell">267999.4375</td><td class="PE_RATIO-cell">10.4956</td><td class="DIVIDEND_YIELD-cell">0.018082</td></tr><tr><td class="ID-cell">2</td><td class="DATE-cell">2013-05-20</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">442.93</td><td class="CURR_ENTP_VAL-cell">271068.7813</td><td class="PE_RATIO-cell">10.5736</td><td class="DIVIDEND_YIELD-cell">0.017949000000000003</td></tr><tr><td class="ID-cell">3</td><td class="DATE-cell">2013-05-19</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">433.26</td><td class="CURR_ENTP_VAL-cell">261992.0625</td><td class="PE_RATIO-cell">10.3428</td><td class="DIVIDEND_YIELD-cell">0.018349</td></tr><tr><td class="ID-cell">4</td><td class="DATE-cell">2013-05-16</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">434.578</td><td class="CURR_ENTP_VAL-cell">263229.2188</td><td class="PE_RATIO-cell">10.3743</td><td class="DIVIDEND_YIELD-cell">0.018294</td></tr><tr><td class="ID-cell">5</td><td class="DATE-cell">2013-05-15</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">428.85</td><td class="CURR_ENTP_VAL-cell">257852.625</td><td class="PE_RATIO-cell">10.2375</td><td class="DIVIDEND_YIELD-cell">0.018538000000000002</td></tr><tr><td class="ID-cell">6</td><td class="DATE-cell">2013-05-14</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">443.86</td><td class="CURR_ENTP_VAL-cell">271941.7188</td><td class="PE_RATIO-cell">10.5958</td><td class="DIVIDEND_YIELD-cell">0.017911</td></tr><tr><td class="ID-cell">7</td><td class="DATE-cell">2013-05-13</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">454.74</td><td class="CURR_ENTP_VAL-cell">282154.25</td><td class="PE_RATIO-cell">10.8556</td><td class="DIVIDEND_YIELD-cell">0.017483</td></tr><tr><td class="ID-cell">8</td><td class="DATE-cell">2013-05-12</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">452.97</td><td class="CURR_ENTP_VAL-cell">280492.8438</td><td class="PE_RATIO-cell">10.8133</td><td class="DIVIDEND_YIELD-cell">0.017551</td></tr><tr><td class="ID-cell">9</td><td class="DATE-cell">2013-05-09</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">456.77</td><td class="CURR_ENTP_VAL-cell">284059.6875</td><td class="PE_RATIO-cell">10.904</td><td class="DIVIDEND_YIELD-cell">0.017405</td></tr><tr class="lastRow"><td class="ID-cell">10</td><td class="DATE-cell">2013-05-08</td><td class="COMPANY-cell">aapl us equity</td><td class="PX_LAST-cell">463.84</td><td class="CURR_ENTP_VAL-cell">290695.9375</td><td class="PE_RATIO-cell">11.0728</td><td class="DIVIDEND_YIELD-cell">0.01714</td></tr></tbody></table>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Bloomberg/">Bloomberg</a> <a class="tag tag--primary tag--small t-link" href="/tags/Data-Cleaning/">Data Cleaning</a> <a class="tag tag--primary tag--small t-link" href="/tags/Investment/">Investment</a> <a class="tag tag--primary tag--small t-link" href="/tags/Python/">Python</a>
+
+            </div>
+        
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Warren Elder. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Warren Elder</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/11/28/Why-I-m-here/">
+                            <h3 class="media-heading">Why I&#39;m here?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Nov 28, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Welcome.</p>
+<p>This is my first post and I thought I should start by addressing the question, “Why am I here”? Well to answer this, I should probably also ask the question, “Who am I, who is asking this question?”. Thinking about it further, I could maybe then ask, “who do I want to answer these questions?”…<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/12/06/Predicting-Survival-on-the-Titanic/">
+                            <h3 class="media-heading">Predicting Survival on the Titanic</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 6, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>A common introduction to Kaggle competitions is to analyse the Titanic dataset to understand why certain people aboard perished, and others did not. I recently shared my attempt on <a href="https://www.kaggle.com/warrenelder/titanic-survival-prediction" title="[https://www.kaggle.com/warrenelder/titanic-survival-prediction] [Titanic: Survival Prediction]" target="_blank" rel="noopener">Kaggle</a>, but you can read my Rmarkdown report here too.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2017/12/13/Creating-a-microservice-API/">
+                            <h3 class="media-heading">Build a micro-service in NodeJS to connect to a third-party api</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 13, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>As part of a project I’m currently working on, a phone application requires data supplied by a third party API. While it would be possible to make requests directly to the API’s end-points, I have decided to employ an alternative approach.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://warrenelder.github.io./2018/01/15/Data-cleaning-in-Python/">
+                            <h3 class="media-heading">Data cleaning in Python</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jan 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>In this post I investigate some of the processes involved in cleaning dirty data.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                4 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-v0q4yypfwzsmsnxjka49pksvvkia1fbmbcntckxvptpvx8mwbtxrdwuugouc.min.js"></script>
+<!--SCRIPTS END-->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('JG6E2Q9B2Y', '5acb06efd79378653af8b8b435f0fbea');
+        var algoliaIndex = algoliaClient.initIndex('high-hopes-hexo-blog');
+    </script>
+
+    </body>
+</html>
